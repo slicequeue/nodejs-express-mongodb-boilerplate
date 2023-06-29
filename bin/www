@@ -4,11 +4,12 @@
  * Module dependencies.
  */
 const sprintf = require('sprintf-js').sprintf;
-const config = require('../src/config');
+const config = require('../config');
 const logger = require('../src/lib/logger');
 
-var app = require('../app');
-var debug = require('debug')(`${config.basic.name}:server`);
+const { client } = require('../db/conn');
+const app = require('../app');
+const debug = require('debug')(`${config.basic.name}:server`);
 
 /**
  * Get port from environment and store in Express.
@@ -32,15 +33,15 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 /* ===== fixme:종료일괄처리필요할경우 ===== */
-// server.on('close', function onServerClose() {
-//     console.log('Stopping ...');
-//     logger.logServEnd(config);
-//     db.close();
-// });
+server.on('close', function onServerClose() {
+    console.log('Stopping ...');
+    logger.logServEnd(config);
+    client.close();
+});
 
-// process.on('SIGINT', function onSigint() {
-//     server.close();
-// });
+process.on('SIGINT', function onSigint() {
+    server.close();
+});
 
 /**
  * Event listener for HTTP server "error" event.

@@ -26,6 +26,27 @@ function init(options) {
         winstonLogger.log(level, strLogTotal);
     };
 
+
+    logger.info = function (...msg) {
+        winstonLogger.info(...msg);
+    }
+
+    logger.error = function(...msg) {
+        winstonLogger.error(...msg);
+    }
+
+    logger.warn = function(...msg) {
+        winstonLogger.warn(...msg);
+    }
+
+    logger.debug = function(...msg) {
+        winstonLogger.debug(...msg);
+    }
+
+    logger.verbose = function(...msg) {
+        winstonLogger.verbose(...msg);
+    }
+
     /**
      * 서버 실행시 정보 출력 로깅
      * @param config
@@ -33,15 +54,15 @@ function init(options) {
      */
     logger.logServStart = function (config, servAddr) {
         // 서버 정보 출력 수행
-        console.log('========================================================================================== SERV START INFO ==========================================================================================');
+        console.log('================== SERV START INFO ==================');
         // 실행 날짜
         winstonLogger.log('info', sprintf('%s SERVER START!', config.basic.name));
         winstonLogger.log('info', '[서버 정보]');
         winstonLogger.log('info', JSON.stringify(config.basic));
-        console.log('======================================================================================================================================================================================================');
+        console.log('======================================================');
         winstonLogger.log('info', sprintf('서버 실행 주소: %s', servAddr));
         winstonLogger.log('info', sprintf('서버 실행 모드: %s', process.env.NODE_ENV));
-        console.log('======================================================================================================================================================================================================');
+        console.log('======================================================');
         if (process.env.NODE_ENV === 'dev') {
             winstonLogger.log('info', '[데이터베이스 정보]');
             winstonLogger.log('info', JSON.stringify(config.db));
@@ -52,10 +73,10 @@ function init(options) {
      * 서버 종료시 정보 로깅
      */
     logger.logServEnd = function (config) {
-        console.log('==========================================================================================++ SERV END INFO ============================================================================================');
+        console.log('==================++ SERV END INFO ====================');
         // 실행 날짜
         winstonLogger.log('info', sprintf('%s SERVER END!', config.basic.name));
-        console.log('======================================================================================================================================================================================================');
+        console.log('======================================================');
     };
 
     return logger;
